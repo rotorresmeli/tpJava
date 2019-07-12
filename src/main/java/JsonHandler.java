@@ -107,7 +107,7 @@ public class JsonHandler {
                     .collect(Collectors.toList());
 
         } catch (NoSuchElementException e) {
-            System.out.println("No se encontro el id del item");
+            System.out.println("No se encontraron items");
         }
         return null;
     }
@@ -127,5 +127,33 @@ public class JsonHandler {
             Collections.sort(items, Collections.reverseOrder());
         }
         return items;
+    }
+
+    public List<Item> filterItemsByPrices(String min, String max, String item) {
+        List<Item> items = completeJsonList(item);
+        try {
+            return items.stream()
+                    .filter(s -> s.getPrice() >= Integer.valueOf(min) && s.getPrice() <= Integer.valueOf(max))
+                    .collect(Collectors.toList());
+        } catch (NoSuchElementException e) {
+            System.out.println("No se encontro un item en ese rango de precios");
+        }
+        return null;
+    }
+
+    public Item updateItem(Item itemToUpdate, String id) {
+        List<Item> items = completeJsonList(id);
+        return null;
+        /*return items.stream()
+                    .map(s -> s.getId() == itemToUpdate.getId() ? Item : s)
+                    .collect(Collectors.toList());
+                    putIntoCache(newObject.getKey(), newItems);*/
+
+    }
+
+    public List<Item> getTaggedItems(String item) {
+        List<Item> items = completeJsonList(item);
+
+        return items.stream().filter(s -> s.getTags().toString().contains("good_quality_thumbnail"));
     }
 }

@@ -8,19 +8,21 @@ public class Main {
 
         final ItemService itemService = new ItemServiceMapImpl();
 
-        get("/items/:item", (request, response) -> {
+        get("/items/:id", (request, response) -> {
             response.type("application/json");
             return new Gson().toJson(new StandardResponse(
                     StatusResponse.SUCCESS,
-                    new Gson().toJsonTree(itemService.getItems(":item"))));
+                    new Gson().toJsonTree(itemService.getItems(":id"))));
 
         });
 
-        get("/items/:item/:id", (request, response) -> {
+        get("/prices/:item", (request, response) -> {
             response.type("application/json");
+            String minPrice = request.queryParams("min");
+            String maxPrice = request.queryParams("max");
             return new Gson().toJson(new StandardResponse(
                     StatusResponse.SUCCESS,
-                    new Gson().toJsonTree(itemService.getItem(request.params(":item"), request.params(":id")))));
+                    new Gson().toJsonTree(itemService.searchItemsByPrices(minPrice, maxPrice, request.params(":item")))));
         });
 
         get("/itemTitles", (request, response) -> {
@@ -43,10 +45,24 @@ public class Main {
             ));
         });
 
+        get("/tagged/:id", (request, response) -> {
+            response.type("application/json");
+            return new Gson().toJson(new StandardResponse(
+                    StatusResponse.SUCCESS,
+                    new Gson().toJsonTree(itemService.getTaggedItems(request.params(":id")))));
+        });
+
+        get("/items/:item/:id", (request, response) -> {
+            response.type("application/json");
+            return new Gson().toJson(new StandardResponse(
+                    StatusResponse.SUCCESS,
+                    new Gson().toJsonTree(itemService.getItem(request.params(":item"), request.params(":id")))));
+        });
+
         put("/items/:id", (request, response) -> {
             response.type("application/json");
             Item item = new Gson().fromJson(request.body(), Item.class);
-            Item itemE = itemService.editItem(item);
+            Item itemE = itemService.editItem(item,request.params(":id"));
             if (itemE != null) {
                 return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(itemE)));
             } else {

@@ -7,15 +7,17 @@ public interface ItemService {
 
     Collection<Item> orderItems(String element, String type, String item);
 
-    Collection<Item> searchItems(String search);
+    Collection<Item> searchItemsByPrices(String minPrice, String maxPrice, String item);
 
     Item getItem(String item, String id);
 
-    Item editItem(Item item);
+    Item editItem(Item item, String id);
 
     boolean deleteItem(String id);
 
     boolean itemExist(String id);
+
+    Collection<Item> getTaggedItems(String item);
 
     Collection<String> getItemTitles(String title);
 }

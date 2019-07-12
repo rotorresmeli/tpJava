@@ -121,7 +121,7 @@ public class JsonHandler {
 
         if (element != null && element.equalsIgnoreCase("PRICE")) {
             Item.orderElement = Item.OrderElement.PRICE;
-        } else if (element != null && element.equals("LISTING_TYPE")) {
+        } else if (element != null && element.equalsIgnoreCase("LISTING_TYPE")) {
             Item.orderElement = Item.OrderElement.LISTING_TYPE;
         }
 
@@ -157,7 +157,8 @@ public class JsonHandler {
 
     public List<Item> getTaggedItems(String item) {
         List<Item> items = completeJsonList(item);
-          return null;
-//        return items.stream().filter(s -> s.getTags().toString().contains("good_quality_thumbnail"));
+        return items.stream()
+                .filter(s -> s.getTags().toString().contains("good_quality_thumbnail"))
+                .collect(Collectors.toList());
     }
 }

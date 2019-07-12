@@ -1,3 +1,7 @@
+package services;
+
+import entities.Item;
+
 import java.util.Collection;
 
 public interface ItemService {
@@ -14,8 +18,6 @@ public interface ItemService {
     Item editItem(Item item, String id);
 
     boolean deleteItem(String id);
-
-    boolean itemExist(String id);
 
     Collection<Item> getTaggedItems(String item);
 

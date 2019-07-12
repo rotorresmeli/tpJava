@@ -1,3 +1,5 @@
+package entities;
+
 import java.util.Arrays;
 
 public class Item implements Comparable{
@@ -115,7 +117,7 @@ public class Item implements Comparable{
 
     @Override
     public String toString() {
-        return "Item{" +
+        return "entities.Item{" +
                 "id='" + id + '\'' +
                 ", siteId='" + siteId + '\'' +
                 ", title='" + title + '\'' +

@@ -1,14 +1,41 @@
+package services;
+
+import entities.Item;
+import entities.JsonHandler;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ItemServiceMapImpl implements ItemService {
+
+    private HashMap<String, Item> itemsResult;
+    private HashMap<String, List<Item>> cacheItems;
+
+    public ItemServiceMapImpl() {
+        this.cacheItems = new HashMap<>();//Para ir guardando resultados parciales
+        this.itemsResult = new HashMap<>();
+    }
 
     JsonHandler jsonHandler = new JsonHandler();
 
     public Collection<Item> getItems(String itemToSearch) {
-        return jsonHandler.completeJsonList(itemToSearch);
+        List<Item> items = new ArrayList<>();
+
+        if (cacheItems.containsKey(itemToSearch)) {
+            items = cacheItems.get(itemToSearch);
+            return items;
+        }
+
+        items = jsonHandler.completeJsonList(itemToSearch);
+
+        for (Item item: items) {
+            itemsResult.put(item.getId(), item);
+        }
+        cacheItems.put(itemToSearch, items);
+
+        return items;
     }
 
     public Collection<Item> orderItems(String element, String type, String item) {
@@ -32,9 +59,7 @@ public class ItemServiceMapImpl implements ItemService {
     }
 
     public Item editItem(Item item, String id) {
-        Item updatedItem = jsonHandler.updateItem(item, id);
-        return item;
-
+        return itemsResult.replace(item.getId(),item);
     }
 
     public Collection<Item> getTaggedItems(String item) {
@@ -44,19 +69,10 @@ public class ItemServiceMapImpl implements ItemService {
     }
 
     public boolean deleteItem(String id) {
-        //return searchItemService.deleteItem(id);
-        return false;
-
-    }
-
-    public boolean itemExist(String id) {
-        //return searchItemService.getAllResult().containsKey(id);
-        return false;
-
+        return itemsResult.remove(id) != null;
     }
 
     public void addItem(Item item) {
-       /* if (item != null)
-            searchItemService.addItem(item);*/
+        itemsResult.put(item.getId(), item);
     }
 }

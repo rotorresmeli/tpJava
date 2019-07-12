@@ -1,3 +1,5 @@
+package entities;
+
 public enum StatusResponse {
     SUCCESS ("Success"),
     ERROR ("Error");

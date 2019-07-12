@@ -1,3 +1,5 @@
+package entities;
+
 public class Currency {
     private String id;
     private String symbol;
@@ -15,7 +17,7 @@ public class Currency {
 
     @Override
     public String toString() {
-        return "Currency{" +
+        return "entities.Currency{" +
                 ", symbol='" + symbol + '\'' +
                 ", description='" + description + '\'' +
                 ", decimalPlaces=" + decimalPlaces +

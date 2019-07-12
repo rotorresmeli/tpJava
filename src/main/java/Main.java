@@ -1,4 +1,9 @@
 import com.google.gson.Gson;
+import entities.Item;
+import entities.StandardResponse;
+import entities.StatusResponse;
+import services.ItemService;
+import services.ItemServiceMapImpl;
 
 import static spark.Spark.*;
 
@@ -66,7 +71,7 @@ public class Main {
             if (itemE != null) {
                 return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(itemE)));
             } else {
-                return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("error al editar")));
+                return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("Edit error")));
             }
         });
 
@@ -79,14 +84,5 @@ public class Main {
                     "item borrado"
             ));
         });
-
-        options("/items/:id", (request, response) -> {
-            response.type("application/json");
-            return new Gson().toJson(new StandardResponse(
-                    StatusResponse.SUCCESS,
-                    itemService.itemExist(request.params(":id")) ? "El item existe" : "El item no existe"
-            ));
-        });
-
     }
 }

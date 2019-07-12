@@ -1,7 +1,11 @@
+package entities;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import entities.Currency;
+import entities.Item;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -145,7 +149,7 @@ public class JsonHandler {
         List<Item> items = completeJsonList(id);
         return null;
         /*return items.stream()
-                    .map(s -> s.getId() == itemToUpdate.getId() ? Item : s)
+                    .map(s -> s.getId() == itemToUpdate.getId() ? entities.Item : s)
                     .collect(Collectors.toList());
                     putIntoCache(newObject.getKey(), newItems);*/
 
@@ -153,7 +157,7 @@ public class JsonHandler {
 
     public List<Item> getTaggedItems(String item) {
         List<Item> items = completeJsonList(item);
-
-        return items.stream().filter(s -> s.getTags().toString().contains("good_quality_thumbnail"));
+          return null;
+//        return items.stream().filter(s -> s.getTags().toString().contains("good_quality_thumbnail"));
     }
 }

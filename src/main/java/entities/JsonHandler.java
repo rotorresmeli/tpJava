@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import entities.Currency;
-import entities.Item;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,7 +123,7 @@ public class JsonHandler {
             Item.orderElement = Item.OrderElement.LISTING_TYPE;
         }
 
-        if (type != null && type.equalsIgnoreCase("DESC")) {
+        if (type != null && !type.equalsIgnoreCase("DESC")) {
             Collections.sort(items);
         } else {
             Collections.sort(items, Collections.reverseOrder());
@@ -145,20 +143,15 @@ public class JsonHandler {
         return null;
     }
 
-    public Item updateItem(Item itemToUpdate, String id) {
-        List<Item> items = completeJsonList(id);
-        return null;
-        /*return items.stream()
-                    .map(s -> s.getId() == itemToUpdate.getId() ? entities.Item : s)
-                    .collect(Collectors.toList());
-                    putIntoCache(newObject.getKey(), newItems);*/
-
-    }
-
     public List<Item> getTaggedItems(String item) {
         List<Item> items = completeJsonList(item);
-        return items.stream()
-                .filter(s -> s.getTags().toString().contains("good_quality_thumbnail"))
-                .collect(Collectors.toList());
+        List<Item> itemsToShow = new ArrayList<>();
+        for (Item itemToFilter :
+                items) {
+            if (Arrays.toString(itemToFilter.getTags()).contains("good_quality_thumbnail")) {
+                itemsToShow.add(itemToFilter);
+            }
+        }
+        return itemsToShow;
     }
 }

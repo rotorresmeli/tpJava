@@ -5,50 +5,41 @@ import static spark.Spark.*;
 public class Main {
 
     public static void main(String[] args) {
+
         final ItemService itemService = new ItemServiceMapImpl();
 
-        post("/items", (request, response) -> {
-            response.type("application/json");
-            Item item = new Gson().fromJson(request.body(), Item.class);
-            itemService.addItem(item);
-            return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS));
-
-        });
-
-        get("/items/search", (request, response) -> {
-            String search = request.queryParams("search");
+        get("/items/:item", (request, response) -> {
             response.type("application/json");
             return new Gson().toJson(new StandardResponse(
                     StatusResponse.SUCCESS,
-                    new Gson().toJsonTree(itemService.searchItems(search)
-                    )));
+                    new Gson().toJsonTree(itemService.getItems(":item"))));
+
         });
 
-        get("/items/:id", (request, response) -> {
+        get("/items/:item/:id", (request, response) -> {
             response.type("application/json");
             return new Gson().toJson(new StandardResponse(
                     StatusResponse.SUCCESS,
-                    new Gson().toJsonTree(itemService.getItem(request.params(":id"))
-                    )));
+                    new Gson().toJsonTree(itemService.getItem(request.params(":item"), request.params(":id")))));
         });
 
-        get("/itemstitle", (request, response) -> {
+        get("/itemTitles", (request, response) -> {
             response.type("application/json");
+            String itemToFilter = request.queryParams("item");
 
             return new Gson().toJson(new StandardResponse(
                     StatusResponse.SUCCESS,
-                    new Gson().toJsonTree(itemService.getTitleItems())
-            ));
+                    new Gson().toJsonTree(itemService.getItemTitles(itemToFilter))));
         });
 
-        get("/items", (request, response) -> {
+        get("/order/:item", (request, response) -> {
             response.type("application/json");
-            String order = request.queryParams("order");
-            String criterio = request.queryParams("criterio");
+            String element = request.queryParams("element");
+            String type = request.queryParams("type");
 
             return new Gson().toJson(new StandardResponse(
                     StatusResponse.SUCCESS,
-                    new Gson().toJsonTree(itemService.getItems(criterio, order))
+                    new Gson().toJsonTree(itemService.orderItems(element, type, request.params(":item")))
             ));
         });
 

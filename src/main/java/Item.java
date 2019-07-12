@@ -18,6 +18,9 @@ public class Item implements Comparable{
 
     public static OrderElement orderElement = OrderElement.PRICE;
 
+    public Item() {
+
+    }
     public Item(String id, String siteId, String title, int price, Currency currency, String listingType, String stopTime, String thumbnail, String[] tags) {
         this.id = id;
         this.siteId = siteId;

@@ -112,8 +112,6 @@ public class SearchItemServiceImpl implements SearchItemService {
             aux.setId(auxObject.get("id").getAsString());
             aux.setSiteId(auxObject.get("site_id").getAsString());
             aux.setTitle(auxObject.get("title").getAsString());
-
-
             aux.setThumbnail(auxObject.get("thumbnail").getAsString());
             JsonArray tagsJsonArray = auxObject.get("tags").getAsJsonArray();
             String[] tagsArray = new String[tagsJsonArray.size()];
